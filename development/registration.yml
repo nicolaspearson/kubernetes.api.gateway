@@ -1,0 +1,48 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: registration-svc-deployment
+  namespace: lupinemoon
+spec:
+  replicas: 2
+  minReadySeconds: 30
+  template:
+    metadata:
+      labels:
+        app: registration-svc-lupinemoon
+    spec:
+      containers:
+        - image: registration-service-lupinemoon:1.0
+          imagePullPolicy: IfNotPresent
+          name: registration-svc-container
+          env:
+            - name: NODE_ENV
+              value: 'staging'
+            - name: HEMERA_LOG_LEVEL
+              value: 'error'
+            - name: NATS_URL
+              value: 'nats://nats-lupinemoon-service:4222'
+            - name: NATS_USER
+              value: 'ruser'
+            - name: NATS_PW
+              value: 'T0pS3cr3t'
+            - name: DB_HOST
+              value: 'postgres-lupinemoon-service.lupinemoon'
+            - name: JAEGER_URL
+              value: 'jaeger-agent.lupinemoon'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: registration-svc-lupinemoon-service
+  namespace: lupinemoon
+  labels:
+    app: registration-svc-lupinemoon
+spec:
+  type: ClusterIP
+  selector:
+    app: registration-svc-lupinemoon
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9376

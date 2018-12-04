@@ -1,0 +1,68 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: cache-svc-deployment
+  namespace: lupinemoon
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cache-svc-lupinemoon
+  minReadySeconds: 30
+  template:
+    metadata:
+      labels:
+        app: cache-svc-lupinemoon
+    spec:
+      containers:
+        - image: cache-service-lupinemoon:1.0
+          imagePullPolicy: IfNotPresent
+          name: cache-svc-container
+          env:
+            - name: NODE_ENV
+              value: 'staging'
+            - name: HEMERA_LOG_LEVEL
+              value: 'error'
+            - name: NATS_URL
+              value: 'nats://nats-lupinemoon-service.lupinemoon:4222'
+            - name: NATS_USER
+              value: 'ruser'
+            - name: NATS_PW
+              value: 'T0pS3cr3t'
+            - name: REDIS_PORT
+              value: '80'
+            - name: REDIS_URL
+              value: 'redis-lupinemoon-service.lupinemoon'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cache-svc-lupinemoon-service
+  namespace: lupinemoon
+  labels:
+    app: cache-svc-lupinemoon
+spec:
+  type: ClusterIP
+  selector:
+    app: cache-svc-lupinemoon
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9375
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: cache-svc-ingress
+  namespace: lupinemoon
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+    - host: cache.localhost
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: cache-svc-lupinemoon-service
+              servicePort: 80

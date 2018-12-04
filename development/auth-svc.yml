@@ -1,0 +1,68 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: auth-svc-deployment
+  namespace: lupinemoon
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: auth-svc-lupinemoon
+  minReadySeconds: 30
+  template:
+    metadata:
+      labels:
+        app: auth-svc-lupinemoon
+    spec:
+      containers:
+        - image: auth-service-lupinemoon:1.0
+          imagePullPolicy: IfNotPresent
+          name: auth-svc-container
+          env:
+            - name: NODE_ENV
+              value: 'staging'
+            - name: HEMERA_LOG_LEVEL
+              value: 'error'
+            - name: NATS_URL
+              value: 'nats://nats-lupinemoon-service.lupinemoon:4222'
+            - name: NATS_USER
+              value: 'ruser'
+            - name: NATS_PW
+              value: 'T0pS3cr3t'
+            - name: DB_HOST
+              value: 'postgres-lupinemoon-service.lupinemoon'
+            - name: JAEGER_URL
+              value: 'jaeger-agent.lupinemoon'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-svc-lupinemoon-service
+  namespace: lupinemoon
+  labels:
+    app: auth-svc-lupinemoon
+spec:
+  type: ClusterIP
+  selector:
+    app: auth-svc-lupinemoon
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9374
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: auth-svc-ingress
+  namespace: lupinemoon
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+    - host: auth.localhost
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: auth-svc-lupinemoon-service
+              servicePort: 80

@@ -1,0 +1,58 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: react-client-deployment
+  namespace: lupinemoon
+spec:
+  replicas: 2
+  minReadySeconds: 30
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: react-client
+    spec:
+      containers:
+        - image: react-lupinemoon-client:1.0
+          imagePullPolicy: IfNotPresent
+          name: react-client-container
+          ports:
+            - containerPort: 80
+              name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-lupinemoon-client-service
+  namespace: lupinemoon
+  labels:
+    app: react-client
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  selector:
+    app: react-client
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: react-client-ingress
+  namespace: lupinemoon
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+    - host: react.client.localhost
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: react-lupinemoon-client-service
+              servicePort: 80
