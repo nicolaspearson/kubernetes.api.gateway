@@ -1,6 +1,6 @@
 # Node Kubernetes
 
-This repository contains Kubernetes files for clustering the [node.api.gateway](https://github.com/nicolaspearson/node.api.gateway), and the [react.antd.fuse](https://github.com/nicolaspearson/react.antd.fuse) frontend
+This repository contains Kubernetes files for clustering the [node.api.gateway](https://github.com/nicolaspearson/node.api.gateway) back-end, and the [react.antd.fuse](https://github.com/nicolaspearson/react.antd.fuse) front-end.
 
 ## Getting Started
 
@@ -34,10 +34,11 @@ Check the available docker images: `docker image ls`
 
 If you do not have the required images for this project you will need to build them from existing repositories.
 
-1. Open the project: `cd react.kraken.client`
-2. Open the api project: `cd node.api.gateway`
-2. Build the images: `docker-compose up --build`
-3. View built images: `docker image ls`
+1. Clone the React project: `git clone https://github.com/nicolaspearson/react.antd.fuse.git`
+2. Clone the Node API Gateway project: `git clone https://github.com/nicolaspearson/node.api.gateway.git`
+3. Open and build the React project: `cd react.antd.fuse && docker-compose build`
+4. Open and build the API project: `cd node.api.gateway && docker-compose build`
+5. Verify the built images: `docker image ls`
 
 ### Deployment
 
@@ -105,6 +106,8 @@ This section will remain empty until the deployment pipeline has been built.
 
 ## Kubernetes Cheat Sheet
 
+Below are some tips for using Kubernetes, the commands provided are **NOT** specific to this project.
+
 [Cheat Sheet and Autocomplete](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
 
 ### Client Configuration
@@ -127,7 +130,7 @@ This section will remain empty until the deployment pipeline has been built.
 
     `kubectl explain pods,svc`
 
--   Create resource(s) like pods, services or daemonsets
+-   Create resource(s) like pods, services or daemon sets
 
     `kubectl create -f ./my-manifest.yaml`
 

@@ -20,6 +20,9 @@ spec:
         - image: react-kraken-client:1.0
           imagePullPolicy: IfNotPresent
           name: react-client-container
+          env:
+            - name: REACT_APP_API_ENDPOINT
+              value: http://gateway.localhost/api/v1
           ports:
             - containerPort: 80
               name: http
