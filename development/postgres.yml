@@ -12,7 +12,7 @@ spec:
         app: postgres
     spec:
       containers:
-        - image: postgres:10.5
+        - image: postgres:11
           imagePullPolicy: IfNotPresent
           name: postgres-container
           env:

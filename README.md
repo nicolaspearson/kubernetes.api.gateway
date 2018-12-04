@@ -1,6 +1,6 @@
 # Node Kubernetes
 
-This repository contains Kubernetes files for clustering the `lupinemoon.api.gateway`, and the `react.kraken.client` frontend
+This repository contains Kubernetes files for clustering the [node.api.gateway](https://github.com/nicolaspearson/node.api.gateway), and the [react.antd.fuse](https://github.com/nicolaspearson/react.antd.fuse) frontend
 
 ## Getting Started
 
@@ -35,7 +35,7 @@ Check the available docker images: `docker image ls`
 If you do not have the required images for this project you will need to build them from existing repositories.
 
 1. Open the project: `cd react.kraken.client`
-2. Open the api project: `cd lupinemoon.api.gateway`
+2. Open the api project: `cd node.api.gateway`
 2. Build the images: `docker-compose up --build`
 3. View built images: `docker image ls`
 
@@ -85,7 +85,7 @@ Check the available docker images: `docker image ls`
 
 You will notice that it displays the images available to Minikube, but not the images that have already been created on your local machine. Minikube runs in a VM and therefore your images cannot be simply be shared, you will need to create the images within the Minikube context, e.g.
 
-1. Open the project: `cd react-lupinemoon-client` / Open the api project: `cd lupinemoon.api.gateway`
+1. Open the project: `cd react-lupinemoon-client` / Open the api project: `cd node.api.gateway`
 2. View local images: `docker image ls`
 3. Switch to Minikube Docker Env: `eval $(minikube docker-env)`
 4. View Minikube images: `docker image ls`

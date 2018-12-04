@@ -17,7 +17,7 @@ spec:
         app: react-client
     spec:
       containers:
-        - image: react-lupinemoon-client:1.0
+        - image: react-kraken-client:1.0
           imagePullPolicy: IfNotPresent
           name: react-client-container
           ports:
