@@ -1,4 +1,4 @@
-# Node Kubernetes
+# Kubernetes API Gateway
 
 This repository contains Kubernetes files for clustering the [node.api.gateway](https://github.com/nicolaspearson/node.api.gateway) back-end, and the [react.antd.fuse](https://github.com/nicolaspearson/react.antd.fuse) front-end.
 
@@ -19,7 +19,7 @@ Further reading: [Learn Kubernetes in under 3 hours](https://medium.freecodecamp
 
 Some of the instructions below are for Minikube user only, if you are not using Minikube you may ignore those sections.
 
-### Install Kubernetes Dashboard
+### Install The Kubernetes Dashboard
 
 If you are not using Minikube you can install the Kubernetes dashboard by following the instructions below:
 
@@ -55,11 +55,11 @@ Add the React Client Frontend to your hosts file:
 
 -   `echo "127.0.0.1 react.client.localhost" | sudo tee -a /etc/hosts`
 
-### API Gateway
+### The API Gateway
 
 The API Gateway is created at `gateway.localhost` by the deploy script, navigate to http://gateway.localhost/api/v1/auth/authorize using your browser, and make sure you see an appropriate response to verify that the gateway is available.
 
-### React Client Frontend
+### The React Client Frontend
 
 The React Client App is created at `react.client.localhost` by the deploy script, navigate to http://react.client.localhost using your browser.
 
